@@ -10,16 +10,27 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.4.1
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.4.1
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm publish
+      - run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
