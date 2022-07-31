@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "format": "rnf_invoice",
+    "version": "0.0.3"
+  },
+  "creationDate": "{{creationDate}}",
+  "invoiceItems": [
+    {
+      "currency": "{{invoiceCurrency:EUR}}",
+      "name": "{{description:faker.commerce.productName}}",
+      "quantity": 1,
+      "tax": {
+        "amount": "0",
+        "type": "percentage"
+      },
+      "unitPrice": "{{unitPrice:1000}}"
+    }
+  ],
+  "invoiceNumber": "{{invoiceNumber:1}}",
+  "buyerInfo": {
+    "email": "{{buyerEmail}}",
+    "firstName": "{{buyerFirstName:faker.name.firstName}}",
+    "lastName": "{{buyerLastName:faker.name.lastName}}",
+    "businessName": "{{businessName:faker.company.name}}"
+  },
+  "sellerInfo": {
+    "email": "{{sellerEmail}}"
+  },
+  "paymentCurrency": "{{paymentCurency:DAI}}",
+  "paymentAddress": "{{paymentAddress:faker.finance.ethereumAddress}}",
+  "draft": false
+}
