@@ -26,7 +26,7 @@
   "sellerInfo": {
     "email": "{{sellerEmail}}"
   },
-  "paymentCurrency": "{{paymentCurency:DAI}}",
+  "paymentCurrency": "{{paymentCurrency:DAI}}",
   "paymentAddress": "{{paymentAddress:faker.finance.ethereumAddress}}",
   "draft": false
 }
