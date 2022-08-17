@@ -12,12 +12,14 @@ const defaults = {
   network: 'test',
   accessToken: '',
   refreshToken: '',
-  lastId: '',
   buyerEmail: '',
   sellerEmail: '',
 };
 
 type Config = typeof defaults;
+
+const PATH_TO_LAST_REQUEST_ID = path.join(os.tmpdir(), 'rf_lastRequestId');
+
 export class ConfigService {
   public static readonly configDir = path.join(os.homedir(), '.rf');
   public static readonly configPath = path.join(this.configDir, 'config.json');
@@ -57,9 +59,13 @@ export class ConfigService {
       ...values,
     };
 
-    fs.writeFileSync(
-      ConfigService.configPath,
-      JSON.stringify(this._values, null, 2),
-    );
+  get lastId() {
+    if (fs.existsSync(PATH_TO_LAST_REQUEST_ID))
+      return fs.readFileSync(PATH_TO_LAST_REQUEST_ID).toString();
+    return null;
+  }
+
+  set lastId(id: string) {
+    fs.writeFileSync(PATH_TO_LAST_REQUEST_ID, id);
   }
 }
