@@ -58,8 +58,10 @@ export class ApiCommand {
       argsToObject(values),
       dryRun,
     );
-    this.output.write(id);
-    this.config.lastId = id;
+    if (id) {
+      this.output.write(id);
+      this.config.lastId = id;
+    }
   }
 
   @Command({ command: 'templates:list', describe: 'List available templates' })
