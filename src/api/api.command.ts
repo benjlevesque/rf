@@ -19,7 +19,7 @@ const argsToObject = (args: string[]) => {
 };
 
 @Injectable()
-export class CliCommand {
+export class ApiCommand {
   constructor(
     private readonly api: ApiService,
     private readonly output: OutputService,
@@ -59,7 +59,7 @@ export class CliCommand {
       dryRun,
     );
     this.output.write(id);
-    this.config.update({ lastId: id });
+    this.config.lastId = id;
   }
 
   @Command({ command: 'templates:list', describe: 'List available templates' })
@@ -92,7 +92,7 @@ export class CliCommand {
     })
     params: string[],
   ): Promise<void> {
-    const lastId = this.config.values.lastId;
+    const lastId = this.config.lastId;
     const response = await this.api.call(
       method,
       path.replace(':lastId', lastId),

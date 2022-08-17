@@ -7,7 +7,7 @@ import { ConfigService } from '~/config/config.service';
 import { OutputService } from '~/output.service';
 
 import { AuthModule, AuthService } from '../auth';
-import { CliCommand } from './api.command';
+import { ApiCommand } from './api.command';
 import { ApiService } from './api.service';
 
 @Module({
@@ -29,6 +29,6 @@ import { ApiService } from './api.service';
       inject: [ConfigService, AuthService],
     }),
   ],
-  providers: [ApiService, CliCommand, OutputService],
+  providers: [ApiService, ApiCommand, OutputService],
 })
 export class CreateModule {}
