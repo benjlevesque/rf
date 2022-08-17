@@ -20,11 +20,13 @@ export const loginProcessorProvider: Provider = {
       timeout: 30000,
       successfulLoginHtmlFile: path.resolve(
         require.main.path,
+        '..',
         'html',
         'success.html',
       ),
       failedLoginHtmlFile: path.resolve(
         require.main.path,
+        '..',
         'html',
         'failure.html',
       ),

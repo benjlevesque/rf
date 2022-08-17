@@ -31,7 +31,7 @@ export const getTemplate = (type: string, template: string) => {
 
 export const copyTemplates = (basePath = '') => {
   for (const fileOrDir of fs.readdirSync(
-    path.join(require.main.path, '.templates', basePath),
+    path.join(require.main.path, '..', '.templates', basePath),
     { withFileTypes: true },
   )) {
     if (fileOrDir.isDirectory()) {
@@ -43,7 +43,13 @@ export const copyTemplates = (basePath = '') => {
       !fs.existsSync(path.join(templatePath, basePath, fileOrDir.name))
     ) {
       fs.copyFileSync(
-        path.join(require.main.path, '.templates', basePath, fileOrDir.name),
+        path.join(
+          require.main.path,
+          '..',
+          '.templates',
+          basePath,
+          fileOrDir.name,
+        ),
         path.join(templatePath, basePath, fileOrDir.name),
       );
     }
