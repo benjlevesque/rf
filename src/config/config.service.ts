@@ -1,3 +1,4 @@
+import { Inject, Injectable } from '@nestjs/common';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
@@ -20,12 +21,17 @@ type Config = typeof defaults;
 
 const PATH_TO_LAST_REQUEST_ID = path.join(os.tmpdir(), 'rf_lastRequestId');
 
+@Injectable()
 export class ConfigService {
   public static readonly configDir = path.join(os.homedir(), '.rf');
-  public static readonly configPath = path.join(this.configDir, 'config.json');
+  public readonly configPath: string;
   private _values: Config;
 
-  constructor() {
+  constructor(
+    @Inject('PROFILE')
+    profile: string,
+  ) {
+    this.configPath = path.join(ConfigService.configDir, `${profile}.json`);
     this._values = this.read();
   }
 
@@ -34,11 +40,11 @@ export class ConfigService {
   }
 
   private read(): Config {
-    if (!fs.existsSync(ConfigService.configPath)) {
+    if (!fs.existsSync(this.configPath)) {
       return defaults;
     }
     try {
-      const raw = fs.readFileSync(ConfigService.configPath).toString();
+      const raw = fs.readFileSync(this.configPath).toString();
       const obj = JSON.parse(raw) as Config;
       if (!obj.accessToken || !obj.refreshToken) {
         throw new Error('invalid');
@@ -58,6 +64,9 @@ export class ConfigService {
       ...currentValues,
       ...values,
     };
+
+    fs.writeFileSync(this.configPath, JSON.stringify(this._values, null, 2));
+  }
 
   get lastId() {
     if (fs.existsSync(PATH_TO_LAST_REQUEST_ID))
