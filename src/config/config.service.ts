@@ -46,13 +46,9 @@ export class ConfigService {
     try {
       const raw = fs.readFileSync(this.configPath).toString();
       const obj = JSON.parse(raw) as Config;
-      if (!obj.accessToken || !obj.refreshToken) {
-        throw new Error('invalid');
-      }
-
       return obj;
     } catch (e) {
-      console.warn('Invalid token', e.message);
+      console.warn(`Invalid config file ${this.configPath}`, e.message);
       return defaults;
     }
   }
