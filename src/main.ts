@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
+import axios from 'axios';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { AppModule } from './app.module';
 import { AuthService } from './auth';
 import { CommandExplorerService } from './command-explorer.service';
+import { SimplifiedAxiosError } from './lib/axiosError';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule, {
@@ -14,6 +16,21 @@ async function bootstrap() {
   const commands = app.get(CommandExplorerService).explore();
 
   const y = yargs;
+
+  const errorHandler = async (e: unknown) => {
+    if (axios.isAxiosError(e)) {
+      const { message, data } = SimplifiedAxiosError.from(e);
+      console.error(message);
+      console.error(data);
+    } else if (e instanceof Error) {
+      console.error(e.message);
+    } else {
+      console.error(e);
+    }
+
+    await app.close();
+    process.exit(1);
+  };
 
   commands.forEach((c) => y.command(c));
   y.demandCommand(1)
@@ -25,16 +42,14 @@ async function bootstrap() {
     .scriptName('rf')
     .middleware(async (args) => {
       if (args._[0] === 'auth:login') return;
-      await app.get(AuthService).refresh();
+      await app.get(AuthService).refresh().catch(errorHandler);
     });
 
   try {
     await y.parse(hideBin(process.argv));
-    // await app.close();
+    await app.close();
   } catch (e) {
-    console.error(e);
-    // await app.close();
-    process.exit(1);
+    await errorHandler(e);
   }
 }
 bootstrap();

@@ -1,10 +1,11 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosResponse, Method } from 'axios';
+import { AxiosResponse, Method } from 'axios';
 import parse from 'json-templates';
 import { firstValueFrom, Observable } from 'rxjs';
 
 import { ConfigService } from '~/config/config.service';
+import { SimplifiedAxiosError } from '~/lib/axiosError';
 
 import { getTemplate } from './templates';
 
@@ -73,16 +74,7 @@ export class ApiService {
       const { data } = await firstValueFrom(promise);
       return data;
     } catch (e) {
-      if (axios.isAxiosError(e)) {
-        if (e.response) {
-          throw new Error(
-            `${e.response.statusText}: ${JSON.stringify(e.response.data)}`,
-          );
-        } else {
-          throw new Error(e.message);
-        }
-      }
-      throw e;
+      throw SimplifiedAxiosError.convert(e);
     }
   }
 }
