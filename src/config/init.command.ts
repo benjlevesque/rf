@@ -71,4 +71,15 @@ export class InitCommand {
 
     spinner.success({ text: 'All good 🎉' });
   }
+
+  @Command({ command: 'update-templates', describe: 'Update templates' })
+  async updateTemplates(): Promise<void> {
+    const { createSpinner } = await import('nanospinner');
+    const spinner = createSpinner();
+    spinner.start({ text: 'Copy default templates' });
+
+    copyTemplates();
+
+    spinner.success();
+  }
 }
