@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import Parser from 'yargs-parser';
 
 import { ConfigService } from './config.service';
 
@@ -8,13 +9,8 @@ import { ConfigService } from './config.service';
     {
       provide: 'PROFILE',
       useFactory: () => {
-        return yargs
-          .option('profile', {
-            describe: 'The profile, or config file, to use',
-            alias: 'p',
-            default: 'dev',
-          })
-          .parseSync()['profile'];
+        const { profile, p } = Parser(hideBin(process.argv));
+        return profile || p;
       },
     },
     ConfigService,

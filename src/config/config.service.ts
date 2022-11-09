@@ -27,10 +27,7 @@ export class ConfigService {
   public readonly configPath: string;
   private _values: Config;
 
-  constructor(
-    @Inject('PROFILE')
-    profile: string,
-  ) {
+  constructor(@Inject('PROFILE') profile: string) {
     this.configPath = path.join(ConfigService.configDir, `${profile}.json`);
     this._values = this.read();
   }

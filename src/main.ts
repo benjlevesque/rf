@@ -34,6 +34,11 @@ async function bootstrap() {
 
   commands.forEach((c) => y.command(c));
   y.demandCommand(1)
+    .option('profile', {
+      describe: 'The profile, or config file, to use',
+      alias: 'p',
+      default: 'dev',
+    })
     .help('h')
     .alias('h', 'help')
     .alias('v', 'version')
