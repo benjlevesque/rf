@@ -46,6 +46,7 @@ specifiers:
   typescript: ^4.3.5
   webpack: ^5.74.0
   yargs: ^17.5.1
+  yargs-parser: ^21.1.1
 
 dependencies:
   '@altostra/cli-login-auth0': 2.0.0
@@ -65,6 +66,7 @@ dependencies:
   rimraf: 3.0.2
   rxjs: 7.5.6
   yargs: 17.5.1
+  yargs-parser: 21.1.1
 
 devDependencies:
   '@nestjs/cli': 8.2.8
@@ -5278,8 +5280,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /yargs-parser/21.0.1:
-    resolution: {integrity: sha512-9BK1jFpLzJROCI5TzwZL/TU4gqjK5xiHV/RfWLOahrjAko/e4DJkRDZQXfvqAsiZzzYhgAzbgz6lg48jcm4GLg==}
+  /yargs-parser/21.1.1:
+    resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
 
   /yargs/17.5.1:
@@ -5292,7 +5294,7 @@ packages:
       require-directory: 2.1.1
       string-width: 4.2.3
       y18n: 5.0.8
-      yargs-parser: 21.0.1
+      yargs-parser: 21.1.1
 
   /yn/3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
