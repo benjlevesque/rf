@@ -19,7 +19,7 @@ export class ApiCommand {
   ) {}
 
   @Command({
-    command: 'create <template> [bodyParams...]',
+    command: 'create <template> [values...]',
     describe: 'Create an API object based on templates',
   })
   async create(
@@ -31,8 +31,8 @@ export class ApiCommand {
     template: string,
     @Option({ name: 'type', default: 'invoices', choices: getTemplateTypes() })
     type: string,
-    @Positional({ name: 'bodyParams', describe: 'override default values' })
-    bodyParams: string[],
+    @Positional({ name: 'values', describe: 'override default values' })
+    values: string[],
     @Option({ name: 'dryRun', type: 'boolean' })
     dryRun: boolean,
   ): Promise<void> {
@@ -47,7 +47,7 @@ export class ApiCommand {
     const id = await this.api.create(
       type,
       template,
-      argsToObject(bodyParams),
+      argsToObject(values),
       dryRun,
     );
     if (id) {
@@ -67,7 +67,7 @@ export class ApiCommand {
   }
 
   @Command({
-    command: 'api <method> <path> [bodyParams...]',
+    command: 'api <method> <path> [values...]',
     describe: 'Peform an API call',
   })
   async call(
@@ -81,7 +81,7 @@ export class ApiCommand {
     @Positional({ name: 'path', describe: 'the relative path' })
     path: string,
     @Positional({
-      name: 'bodyParams',
+      name: 'values',
       describe: 'parameters to pass to the API call',
     })
     params: string[],
