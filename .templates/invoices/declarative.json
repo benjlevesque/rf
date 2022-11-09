@@ -24,11 +24,13 @@
     "businessName": "{{businessName:faker.company.name}}"
   },
   "sellerInfo": {
-    "email": "{{sellerEmail}}"
+    "email": "{{sellerEmail}}",
+    "firstName": "{{sellerFirstName}}",
+    "lastName": "{{sellerLastName}}"
   },
   "paymentCurrency": "{{paymentCurrency:EUR}}",
   "declarativePaymentInformation": {
-    "iban": "{{iban:faker.finance.iban}}"
+    "bankAccountDetails": "{{iban:faker.finance.iban}}"
   },
   "draft": false
 }
