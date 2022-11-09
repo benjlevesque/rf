@@ -8,15 +8,7 @@ import { OutputService } from '~/output.service';
 
 import { ApiService } from './api.service';
 import { getTemplate, getTemplatesByType, getTemplateTypes } from './templates';
-
-const argsToObject = (args: string[]) => {
-  return args.reduce((prev, curr) => {
-    const [key, val] = curr.split('=');
-    if (Number.isNaN(Number(val))) prev[key] = val;
-    else prev[key] = Number(val);
-    return prev;
-  }, {} as Record<string, any>);
-};
+import { argsToObject } from './utils';
 
 @Injectable()
 export class ApiCommand {
@@ -27,7 +19,7 @@ export class ApiCommand {
   ) {}
 
   @Command({
-    command: 'create <template> [values...]',
+    command: 'create <template> [bodyParams...]',
     describe: 'Create an API object based on templates',
   })
   async create(
@@ -39,8 +31,8 @@ export class ApiCommand {
     template: string,
     @Option({ name: 'type', default: 'invoices', choices: getTemplateTypes() })
     type: string,
-    @Positional({ name: 'values', describe: 'override default values' })
-    values: string[],
+    @Positional({ name: 'bodyParams', describe: 'override default values' })
+    bodyParams: string[],
     @Option({ name: 'dryRun', type: 'boolean' })
     dryRun: boolean,
   ): Promise<void> {
@@ -55,7 +47,7 @@ export class ApiCommand {
     const id = await this.api.create(
       type,
       template,
-      argsToObject(values),
+      argsToObject(bodyParams),
       dryRun,
     );
     if (id) {
