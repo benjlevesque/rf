@@ -44,6 +44,12 @@ async function bootstrap() {
     })
     .option('dev', { type: 'boolean', describe: 'Alias for --profile dev' })
     .option('prod', { type: 'boolean', describe: 'Alias for --profile prod' })
+    .option('format', {
+      choices: ['human', 'json'],
+      describe: 'The format of the texts',
+      default: 'human',
+    })
+    .option('json', { type: 'boolean', describe: 'Alias for --format json' })
     .help('h')
     .alias('h', 'help')
     .alias('v', 'version')
