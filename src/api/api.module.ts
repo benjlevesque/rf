@@ -31,4 +31,4 @@ import { ApiService } from './api.service';
   ],
   providers: [ApiService, ApiCommand, OutputService],
 })
-export class CreateModule {}
+export class ApiModule {}
