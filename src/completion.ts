@@ -95,10 +95,8 @@ export class CompletionService implements OnModuleInit {
 
     if (this.completions[lastCmd]) {
       const results = this.completions[lastCmd](current, argv);
-      if (results) {
-        completionFilter((err, defaultComp) => {
-          done(results.concat(defaultComp));
-        });
+      if (results && results.length) {
+        done(results);
       } else {
         completionFilter();
       }

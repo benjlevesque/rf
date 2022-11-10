@@ -32,11 +32,16 @@ export class ApiCommand {
       demandOption: true,
     })
     template: string,
-    @Option({ name: 'type', default: 'invoices', choices: getTemplateTypes() })
+    @Option({
+      name: 'type',
+      default: 'invoices',
+      choices: getTemplateTypes(),
+      describe: 'The type of object to create',
+    })
     type: string,
     @Positional({ name: 'values', describe: 'override default values' })
     values: string[],
-    @Option({ name: 'dryRun', type: 'boolean' })
+    @Option({ name: 'dryRun', type: 'boolean', describe: 'Run a simulation' })
     dryRun: boolean,
   ): Promise<void> {
     if (!getTemplate(type, template)) {
