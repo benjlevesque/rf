@@ -3,12 +3,15 @@ import type { Method } from 'axios';
 import { Command, Option } from 'nestjs-command';
 
 import { Positional } from '~/command.decorator';
+import { Completion } from '~/completion';
 import { ConfigService } from '~/config/config.service';
 import { OutputService } from '~/output.service';
 
 import { ApiService } from './api.service';
 import { getTemplate, getTemplatesByType, getTemplateTypes } from './templates';
 import { argsToObject } from './utils';
+
+const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
 @Injectable()
 export class ApiCommand {
@@ -56,6 +59,11 @@ export class ApiCommand {
     }
   }
 
+  @Completion('create')
+  createCompletion(_current: string, argv: any) {
+    return getTemplatesByType(argv.type).map((x) => x + ':Templates');
+  }
+
   @Command({
     command: 'api <method> <path> [values...]',
     describe: 'Peform an API call',
@@ -64,7 +72,8 @@ export class ApiCommand {
     @Positional({
       name: 'method',
       describe: 'the http method',
-      choices: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+      choices: METHODS,
+      demandOption: true,
       coerce: (arg: string) => arg.toUpperCase(),
     })
     method: Method,
@@ -83,5 +92,10 @@ export class ApiCommand {
       argsToObject(params),
     );
     this.output.writeJson(response);
+  }
+
+  @Completion('api')
+  callCompletion() {
+    return METHODS.map((x) => x + ':HTTP Methods');
   }
 }

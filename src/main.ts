@@ -6,6 +6,7 @@ import { hideBin } from 'yargs/helpers';
 import { AppModule } from './app.module';
 import { AuthService } from './auth';
 import { CommandExplorerService } from './command-explorer.service';
+import { CompletionService } from './completion';
 import { SimplifiedAxiosError } from './lib/axiosError';
 
 async function bootstrap() {
@@ -33,6 +34,8 @@ async function bootstrap() {
   };
 
   commands.forEach((c) => y.command(c));
+  const completionService = app.get(CompletionService);
+
   y.demandCommand(1)
     .option('profile', {
       describe: 'The profile, or config file, to use',
@@ -45,7 +48,7 @@ async function bootstrap() {
     .alias('h', 'help')
     .alias('v', 'version')
     .strict()
-    .completion()
+    .completion('completion', completionService.getCompletion)
     .scriptName('rf')
     .middleware(async (args) => {
       if (args._[0] === 'auth:login') return;
