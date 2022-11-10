@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MetadataScanner } from '@nestjs/core';
 
 import { ApiModule } from './api/api.module';
+import { TemplatesCommand } from './api/templates.command';
 import { AuthModule } from './auth';
 import { WhoamiService } from './auth/whoami/whoami.service';
 import { CommandExplorerService } from './command-explorer.service';
@@ -17,6 +18,7 @@ import { OutputService } from './output.service';
     WhoamiService,
     OutputService,
     InitCommand,
+    TemplatesCommand,
   ],
   exports: [],
 })

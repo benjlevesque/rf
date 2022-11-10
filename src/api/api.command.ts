@@ -56,16 +56,6 @@ export class ApiCommand {
     }
   }
 
-  @Command({ command: 'templates:list', describe: 'List available templates' })
-  async list() {
-    console.table(
-      getTemplateTypes().map((type) => ({
-        type,
-        templates: getTemplatesByType(type).join(','),
-      })),
-    );
-  }
-
   @Command({
     command: 'api <method> <path> [values...]',
     describe: 'Peform an API call',
