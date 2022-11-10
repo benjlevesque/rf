@@ -9,8 +9,19 @@ import { ConfigService } from './config.service';
     {
       provide: 'PROFILE',
       useFactory: () => {
-        const { profile, p } = Parser(hideBin(process.argv));
-        return profile || p;
+        const args = Parser(hideBin(process.argv));
+
+        const profile = args.profile || args.p;
+        if (profile && (args.dev || args.prod)) {
+          console.error(
+            'Cannot specify --dev or --prod together with a profile',
+          );
+          process.exit(1);
+        }
+        if (args.prod) return 'prod';
+        if (args.dev || !profile) return 'dev';
+
+        return profile;
       },
     },
     ConfigService,

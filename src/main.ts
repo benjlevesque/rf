@@ -39,6 +39,8 @@ async function bootstrap() {
       alias: 'p',
       default: 'dev',
     })
+    .option('dev', { type: 'boolean', describe: 'Alias for --profile dev' })
+    .option('prod', { type: 'boolean', describe: 'Alias for --profile prod' })
     .help('h')
     .alias('h', 'help')
     .alias('v', 'version')
