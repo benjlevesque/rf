@@ -16,7 +16,7 @@ export const loginProcessorProvider: Provider = {
       auth0Domain: config.values.auth0Domain || '',
       auth0TokenAudience: '',
       auth0TokenScope: config.values.auth0TokenScope || '',
-      port: config.values.port,
+      port: config.values.port || 3333,
       timeout: 30000,
       successfulLoginHtmlFile: path.resolve(
         require.main.path,
