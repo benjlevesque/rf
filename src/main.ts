@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, repl } from '@nestjs/core';
 import axios from 'axios';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -7,6 +7,7 @@ import { AppModule } from './app.module';
 import { AuthService } from './auth';
 import { CommandExplorerService } from './command-explorer.service';
 import { CompletionService } from './completion';
+import { ConfigService } from './config/config.service';
 import { SimplifiedAxiosError } from './lib/axiosError';
 
 async function bootstrap() {
@@ -43,6 +44,10 @@ async function bootstrap() {
       default: 'dev',
     })
     .option('dev', { type: 'boolean', describe: 'Alias for --profile dev' })
+    .option('staging', {
+      type: 'boolean',
+      describe: 'Alias for --profile staging',
+    })
     .option('prod', { type: 'boolean', describe: 'Alias for --profile prod' })
     .option('format', {
       choices: ['human', 'json'],
@@ -57,9 +62,11 @@ async function bootstrap() {
     .completion('completion', completionService.getCompletion)
     .scriptName('rf')
     .middleware(async (args) => {
-      if (args._[0] === 'auth:login') return;
+      if (['auth:login', 'init'].includes(String(args._[0]))) return;
+      app.get(ConfigService).loadDefaultProfile();
       await app.get(AuthService).refresh().catch(errorHandler);
-    });
+    })
+    .command('repl', false, () => repl(AppModule));
 
   try {
     await y.parse(hideBin(process.argv));
