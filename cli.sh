@@ -6,4 +6,4 @@ script_path="$dir_path/dist/main.js"
 
 node_path="$(which node)"
 
-$node_path --experimental-specifier-resolution=node $script_path "$@"
+$node_path $script_path "$@"
