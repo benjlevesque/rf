@@ -32,7 +32,9 @@ export class ApiService {
         .reduce((prev, { key, defaultValue }) => {
           return {
             ...prev,
-            [key]: faker.fake(defaultValue.replace(/faker\.(.*)/, '{{$1}}')),
+            [key]: faker.helpers.fake(
+              defaultValue.replace(/faker\.(.*)/, '{{$1}}'),
+            ),
           };
         }, {} as Record<string, string>),
       creationDate: new Date(),

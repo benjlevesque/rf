@@ -7,7 +7,7 @@ import { AuthModule, AuthService } from '~/auth';
 import { WhoamiService } from '~/auth/whoami/whoami.service';
 
 import { ConfigService, defaultProfiles } from './config.service';
-import { setProfile } from './profile';
+import { isFallbackProfile, setProfile } from './profile';
 
 export const getEmails = (email: string) => {
   const [, mail, plus, domain] = /([a-zA-Z0-9\-\.]*)(\+.*)?@(.*)/.exec(email);
@@ -37,7 +37,7 @@ export class InitCommand {
   async run(): Promise<void> {
     const { prompt } = await import('inquirer');
 
-    if (!this.configService.profile) {
+    if (isFallbackProfile()) {
       const { profileName } = await prompt([
         {
           name: 'profileName',

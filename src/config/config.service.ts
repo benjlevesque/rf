@@ -3,7 +3,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 
-import { getProfile, setProfile } from './profile';
+import { getProfile } from './profile';
 
 const devDefaults = {
   port: 3333,
@@ -54,14 +54,7 @@ export class ConfigService {
     return path.join(ConfigService.configDir, `${this.profile}.json`);
   }
   get values(): Config {
-    return this._values || ({} as any);
-  }
-
-  public loadDefaultProfile() {
-    if (!getProfile()) {
-      setProfile('dev');
-    }
-    this.load();
+    return this._values;
   }
 
   public load() {

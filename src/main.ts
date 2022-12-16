@@ -7,7 +7,6 @@ import { AppModule } from './app.module';
 import { AuthService } from './auth';
 import { CommandExplorerService } from './command-explorer.service';
 import { CompletionService } from './completion';
-import { ConfigService } from './config/config.service';
 import { SimplifiedAxiosError } from './lib/axiosError';
 
 async function bootstrap() {
@@ -63,7 +62,6 @@ async function bootstrap() {
     .scriptName('rf')
     .middleware(async (args) => {
       if (['auth:login', 'init'].includes(String(args._[0]))) return;
-      app.get(ConfigService).loadDefaultProfile();
       await app.get(AuthService).refresh().catch(errorHandler);
     })
     .command('repl', false, () => repl(AppModule));
