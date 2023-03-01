@@ -53,6 +53,10 @@ async function bootstrap() {
       describe: 'The format of the texts',
       default: 'human',
     })
+    .option('refresh-token', {
+      type: 'boolean',
+      desc: 'Forces the refresh of the token',
+    })
     .option('json', { type: 'boolean', describe: 'Alias for --format json' })
     .help('h')
     .alias('h', 'help')
@@ -62,7 +66,10 @@ async function bootstrap() {
     .scriptName('rf')
     .middleware(async (args) => {
       if (['auth:login', 'init'].includes(String(args._[0]))) return;
-      await app.get(AuthService).refresh().catch(errorHandler);
+      await app
+        .get(AuthService)
+        .refresh(args['refresh-token'])
+        .catch(errorHandler);
     })
     .command('repl', false, () => repl(AppModule));
 

@@ -38,12 +38,12 @@ export class AuthService {
     return { accessToken, parsed };
   }
 
-  public async refresh() {
+  public async refresh(force?: boolean) {
     const { accessToken, refreshToken } = this.config.values;
     if (!refreshToken) return;
     const parsed = this.parseJwt<Token>(accessToken);
 
-    if (!this.isExpired(parsed)) return;
+    if (!force && !this.isExpired(parsed)) return;
 
     console.log('Refreshing token');
 
