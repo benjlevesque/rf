@@ -92,6 +92,8 @@ For templates others than invoices, you may create another folder, and pass the 
 #### Override values
 You can override each key in the template by passing it to the `create` command: for instance, if you want to override `invoiceItems[0].currency` in the template above, you can use `rf create declarative invoiceCurrency=USD`
 
+You can also override a value per profile, using the `defaults` key in the configuration file.
+
 #### Commands
 
 List available templates: 

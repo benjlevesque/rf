@@ -17,6 +17,7 @@ const devDefaults = {
   refreshToken: '',
   buyerEmail: '',
   sellerEmail: '',
+  defaults: {},
 };
 
 const stagingDefaults = {

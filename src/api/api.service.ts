@@ -41,6 +41,7 @@ export class ApiService {
       invoiceNumber: String(Date.now()),
       buyerEmail: this.config.values.buyerEmail,
       sellerEmail: this.config.values.sellerEmail,
+      ...(this.config.values.defaults || {}),
       ...customValues,
     };
 
