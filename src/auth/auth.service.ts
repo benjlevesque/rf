@@ -45,7 +45,9 @@ export class AuthService {
 
     if (!force && !this.isExpired(parsed)) return;
 
-    console.log('Refreshing token');
+    if (process.stdout.isTTY) {
+      console.log('Refreshing token');
+    }
 
     const client = axios.create({ baseURL: parsed.iss });
     const { data } = await client.post<AccessToken>(
