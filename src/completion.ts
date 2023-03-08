@@ -92,7 +92,7 @@ export class CompletionService implements OnModuleInit {
     done: (completions: string[]) => void,
   ) => {
     const cmd = argv._[1];
-    if (this.completions[cmd]) {
+    if (this.completions[cmd] && !current.startsWith('-')) {
       const results = this.completions[cmd](current, argv);
       if (results && results.length) {
         done(results);

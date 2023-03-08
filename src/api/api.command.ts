@@ -68,11 +68,13 @@ export class ApiCommand {
   @Completion('create')
   createCompletion(_current: string, argv: any) {
     const templates = getTemplatesByType(argv.type);
-    const template = argv._[argv._.length - 2];
+    const template = argv._[2];
     if (template && templates.includes(template)) {
-      return parse(getTemplate(argv.type, template)).parameters.map(
-        (x) => x.key + '=:' + x.defaultValue,
-      );
+      return parse(getTemplate(argv.type, template))
+        .parameters.filter(
+          (param) => !argv._.find((arg) => arg.startsWith(param.key + '=')),
+        )
+        .map((param) => param.key + '=:' + param.defaultValue);
     }
     return templates.map((x) => x + ':Templates');
   }
