@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Method } from 'axios';
+import parse from 'json-templates';
 import { Command, Option } from 'nestjs-command';
 
 import { Positional } from '~/command.decorator';
@@ -66,7 +67,14 @@ export class ApiCommand {
 
   @Completion('create')
   createCompletion(_current: string, argv: any) {
-    return getTemplatesByType(argv.type).map((x) => x + ':Templates');
+    const templates = getTemplatesByType(argv.type);
+    const template = argv._[argv._.length - 2];
+    if (template && templates.includes(template)) {
+      return parse(getTemplate(argv.type, template)).parameters.map(
+        (x) => x.key + '=:' + x.defaultValue,
+      );
+    }
+    return templates.map((x) => x + ':Templates');
   }
 
   @Command({
@@ -100,7 +108,8 @@ export class ApiCommand {
   }
 
   @Completion('api')
-  callCompletion() {
+  callCompletion(_, argv: any) {
+    if (argv._.some((x) => METHODS.includes(x))) return [];
     return METHODS.map((x) => x + ':HTTP Methods');
   }
 }

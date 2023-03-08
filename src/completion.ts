@@ -91,10 +91,9 @@ export class CompletionService implements OnModuleInit {
     completionFilter: (onCompleted?: CompletionCallback) => any,
     done: (completions: string[]) => void,
   ) => {
-    const lastCmd = argv._[argv._.length - 2];
-
-    if (this.completions[lastCmd]) {
-      const results = this.completions[lastCmd](current, argv);
+    const cmd = argv._[1];
+    if (this.completions[cmd]) {
+      const results = this.completions[cmd](current, argv);
       if (results && results.length) {
         done(results);
       } else {
