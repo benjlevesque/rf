@@ -28,5 +28,6 @@
   },
   "paymentCurrency": "{{paymentCurrency:DAI}}",
   "paymentAddress": "{{paymentAddress:faker.finance.ethereumAddress}}",
+  "recurringRule": "{{recurringRule:}}",
   "draft": false
 }
