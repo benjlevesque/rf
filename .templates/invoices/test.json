@@ -9,10 +9,6 @@
       "currency": "{{invoiceCurrency:EUR}}",
       "name": "{{description:faker.commerce.productName}}",
       "quantity": 1,
-      "tax": {
-        "amount": "0",
-        "type": "percentage"
-      },
       "unitPrice": "{{unitPrice:1000}}"
     }
   ],
@@ -27,7 +23,5 @@
     "email": "{{sellerEmail}}"
   },
   "paymentCurrency": "{{paymentCurrency:DAI}}",
-  "paymentAddress": "{{paymentAddress:faker.finance.ethereumAddress}}",
-  "recurringRule": "{{recurringRule:}}",
-  "draft": false
+  "paymentAddress": "{{paymentAddress:faker.finance.ethereumAddress}}"
 }

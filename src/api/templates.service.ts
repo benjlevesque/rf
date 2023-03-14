@@ -29,6 +29,19 @@ export class TemplatesService {
       ...customValues,
     };
 
-    return render(values);
+    // the return type of render is wrong. It's not a string, it's an object
+    const result = render(values) as any;
+
+    // we ignore keys that are already a parameter, to avoid conflicts
+    const extraValues = Object.fromEntries(
+      Object.entries(customValues).filter(
+        ([key]) => !render.parameters.find((p) => p.key === key),
+      ),
+    );
+
+    return {
+      ...result,
+      ...extraValues,
+    };
   }
 }

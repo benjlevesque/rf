@@ -50,13 +50,35 @@ describe('TemplatesService', () => {
     });
   });
 
-  it('Cannot add extra keys', async () => {
+  it('Can render with extra keys', async () => {
     await expect(
       templateService.render(template, { extra: 'foo' }),
     ).resolves.toMatchObject({
       hardcodedValue: 'value1',
       configurableValueWithDefault: 'value2',
       configurableValueNoDefault: '',
+      extra: 'foo',
     });
+  });
+
+  it('Can override existing keys', async () => {
+    await expect(
+      templateService.render(template, {
+        hardcodedValue: 'foo',
+        configurableValueWithDefault: 'bar',
+      }),
+    ).resolves.toMatchObject({
+      hardcodedValue: 'foo',
+      configurableValueWithDefault: 'bar',
+      configurableValueNoDefault: '',
+    });
+  });
+
+  it('Cannot override with parameters', async () => {
+    const result = await templateService.render(template, {
+      configurable1: 'foo',
+    });
+
+    expect(result.configurable1).not.toBeDefined();
   });
 });
