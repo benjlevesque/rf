@@ -2,14 +2,18 @@ export const parseValue = (value: string) => {
   try {
     return JSON.parse(value);
   } catch {
-    return value;
+    // yargs transforms \n to \\n.
+    return value?.replace('\\n', '\n');
   }
 };
 
 export const splitToKeyValue = (str: string) => {
-  let [key, value] = str.split(':=');
+  let value = '';
+  let [key, ...values] = str.split(':=');
+  value = values.join(':=');
   if (!value) {
-    [key, value] = str.split('=');
+    [key, ...values] = str.split('=');
+    value = values.join('=');
   }
   return { key, value: parseValue(value) };
 };
