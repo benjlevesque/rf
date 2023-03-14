@@ -29,7 +29,7 @@ export const getTemplate = (type: string, template: string) => {
     .toString();
 };
 
-export const copyTemplates = (basePath = '') => {
+export const copyTemplates = (override = false, basePath = '') => {
   for (const fileOrDir of fs.readdirSync(
     path.join(require.main.path, '..', '.templates', basePath),
     { withFileTypes: true },
@@ -38,8 +38,9 @@ export const copyTemplates = (basePath = '') => {
       if (!fs.existsSync(path.join(templatePath, basePath, fileOrDir.name))) {
         fs.mkdirSync(path.join(templatePath, basePath, fileOrDir.name));
       }
-      copyTemplates(path.join(basePath, fileOrDir.name));
+      copyTemplates(override, path.join(basePath, fileOrDir.name));
     } else if (
+      override ||
       !fs.existsSync(path.join(templatePath, basePath, fileOrDir.name))
     ) {
       fs.copyFileSync(

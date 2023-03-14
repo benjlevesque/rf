@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Command } from 'nestjs-command';
+import { Command, Option } from 'nestjs-command';
 
 import {
   copyTemplates,
@@ -20,12 +20,15 @@ export class TemplatesCommand {
   }
 
   @Command({ command: 'templates:update', describe: 'Update templates' })
-  async updateTemplates(): Promise<void> {
+  async updateTemplates(
+    @Option({ name: 'override', boolean: true, default: false })
+    override: boolean,
+  ): Promise<void> {
     const { createSpinner } = await import('nanospinner');
     const spinner = createSpinner();
     spinner.start({ text: 'Copy default templates' });
 
-    copyTemplates();
+    copyTemplates(override);
 
     spinner.success();
   }
