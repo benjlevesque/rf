@@ -9,6 +9,7 @@ import { OutputService } from '~/output.service';
 import { AuthModule, AuthService } from '../auth';
 import { ApiCommand } from './api.command';
 import { ApiService } from './api.service';
+import { TemplatesService } from './templates.service';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import { ApiService } from './api.service';
       inject: [ConfigService, AuthService],
     }),
   ],
-  providers: [ApiService, ApiCommand, OutputService],
+  providers: [ApiService, ApiCommand, OutputService, TemplatesService],
 })
 export class ApiModule {}
