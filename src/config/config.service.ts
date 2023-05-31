@@ -9,7 +9,7 @@ const devDefaults = {
   port: 3333,
   auth0ClientId: '2gI6kSuwcpjyOmNKqnW3N1YaLG8wPiWq',
   auth0Domain: 'request-dev.eu.auth0.com',
-  auth0TokenScope: 'openid email profile offline_access',
+  auth0TokenScope: 'openid email profile offline_access user:read user:write',
   auth0Organization: '',
   apiUrl: 'http://localhost:4000',
   network: 'test',
