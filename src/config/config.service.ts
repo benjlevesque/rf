@@ -32,7 +32,7 @@ const prodDefaults = {
   network: 'live',
 };
 
-type Config = typeof devDefaults;
+export type Config = typeof devDefaults;
 export const defaultProfiles: Record<string, Config> = {
   dev: devDefaults,
   staging: stagingDefaults,

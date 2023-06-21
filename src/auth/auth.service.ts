@@ -2,11 +2,12 @@ import {
   AccessToken,
   Auth0LoginProcessor,
   ComboToken,
+  RefreshToken,
 } from '@altostra/cli-login-auth0';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
-import { ConfigService } from '~/config/config.service';
+import { Config, ConfigService } from '~/config/config.service';
 
 import { TokenExpiredError, TokenMissingError } from './errors';
 import { Token } from './token.entity';
@@ -50,7 +51,7 @@ export class AuthService {
     }
 
     const client = axios.create({ baseURL: parsed.iss });
-    const { data } = await client.post<AccessToken>(
+    const { data } = await client.post<AccessToken & RefreshToken>(
       '/oauth/token',
       new URLSearchParams({
         grant_type: 'refresh_token',
@@ -58,7 +59,11 @@ export class AuthService {
         refresh_token: refreshToken,
       }),
     );
-    this.config.update({ accessToken: data.access_token });
+    const newConfig: Partial<Config> = { accessToken: data.access_token };
+    if (data.refresh_token) {
+      newConfig.refreshToken = data.refresh_token;
+    }
+    this.config.update(newConfig);
   }
 
   private parseJwt<T>(token: string) {
